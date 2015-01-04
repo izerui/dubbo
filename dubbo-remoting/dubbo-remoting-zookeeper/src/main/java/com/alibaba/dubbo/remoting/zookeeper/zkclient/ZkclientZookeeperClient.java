@@ -22,9 +22,11 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
 
 	public ZkclientZookeeperClient(URL url) {
 		super(url);
-		int timeout = url.getParameter("timeout", 1000);
+		//回滚至 2.4.10 的 无超时机制
+//		int timeout = url.getParameter("timeout", 1000);
+//		client = new ZkClient(url.getBackupAddress(), timeout, timeout);
 
-		client = new ZkClient(url.getBackupAddress(), timeout, timeout);
+		client = new ZkClient(url.getBackupAddress());
 		client.subscribeStateChanges(new IZkStateListener() {
 			public void handleStateChanged(KeeperState state) throws Exception {
 				ZkclientZookeeperClient.this.state = state;
